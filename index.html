@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Español: Sujeto y predicado</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:linear-gradient(160deg,#fff6d6,#d9f2ff);color:#1f2a44;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:16px}h1{text-align:center;font-size:2rem;margin:10px 0}h2{font-size:1.5rem;margin:8px 0}
+.card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 6px 18px rgba(0,0,0,.1);margin:14px 0}
+.btn{display:block;width:100%;font-size:1.3rem;padding:16px;margin:8px 0;border:0;border-radius:16px;cursor:pointer;color:#fff;background:#2b8de2;font-weight:700}
+.btn.g{background:#22a35a}.btn.o{background:#f08a24}.btn.r{background:#c7362b}.btn.gray{background:#8a94a8}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row .btn{flex:1;min-width:140px}
+.topics label{display:block;font-size:1.25rem;padding:10px;background:#e8f3ff;border-radius:12px;margin:6px 0;cursor:pointer}
+.topics input{transform:scale(1.5);margin-right:12px}
+.q{font-size:1.45rem;font-weight:700;margin:6px 0 14px}.opt{background:#eef1f6;color:#1f2a44;text-align:left}
+.opt.ok{background:#22a35a;color:#fff}.opt.bad{background:#c7362b;color:#fff}
+.exp{font-size:1.15rem;background:#fff6d6;border-left:6px solid #ffbf00;padding:12px;border-radius:10px;margin-top:10px}
+.stats{display:flex;justify-content:space-between;font-size:1.15rem;font-weight:700;flex-wrap:wrap;gap:8px}
+.tag{display:inline-block;padding:4px 10px;border-radius:10px;background:#ffd9cc;font-size:.95rem;font-weight:700}
+.fc{min-height:200px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:1.4rem;cursor:pointer;background:#e8f3ff}
+.timer{font-size:2rem;text-align:center;font-weight:800;color:#c7362b}.hid{display:none}.msg{font-size:1.3rem;text-align:center;font-weight:700;min-height:1.6em}
+ul{font-size:1.1rem}li{margin:6px 0}
+</style><style>.chk{display:inline-block;margin-left:10px;background:#22a35a;color:#fff;border-radius:50%;width:2rem;height:2rem;line-height:2rem;text-align:center;font-size:1.3rem;font-weight:900;vertical-align:middle}.chk.no{display:none}
+.sen{font-size:1.5rem;background:#f4f7fb;border-radius:14px;padding:12px;margin:0 0 12px;text-align:center}.su{color:#1f5fd1;font-weight:800;text-decoration:underline}.pr{color:#c7362b;font-weight:800;text-decoration:underline}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0}.chip{font-size:1.3rem;padding:10px 14px;border:0;border-radius:12px;background:#e8f3ff;color:#1f2a44;font-weight:700;cursor:pointer}.chip:disabled{opacity:.3}
+.built{min-height:3.2rem;font-size:1.4rem;background:#fff6d6;border-radius:12px;padding:10px;text-align:center;font-weight:700}</style></head><body><div class="wrap">
+<p style="margin:0"><a href="https://korckyjals-grok-bot.github.io/espanol/" style="color:#2b8de2;font-weight:700;text-decoration:none">⬅️ Todos los juegos</a></p>
+<h1>📝 Español: Sujeto y predicado</h1>
+<div id="home" class="card">
+<p style="font-size:1.2rem;text-align:center">¡Hola, <span class="nm">amiguito</span>! Descubre <span class="su">quién</span> hace la acción y <span class="pr">qué se dice</span> de él. <a href="#" onclick="cambiarNombre();return false" style="font-size:.9rem;color:#2b8de2;white-space:nowrap">✏️ Cambiar nombre</a></p>
+<button class="btn g" onclick="showStudy()">📖 Estudiar</button>
+<div class="topics" id="topics">
+<label><input type="checkbox" value="sp" checked>🔵🔴 Sujeto y predicado<span class="chk no" data-t="sp">✔</span></label>
+<label><input type="checkbox" value="eo" checked>👀 Sujeto expreso u omitido<span class="chk no" data-t="eo">✔</span></label>
+<label><input type="checkbox" value="nu" checked>🎯 Núcleo del sujeto y del predicado<span class="chk no" data-t="nu">✔</span></label>
+<label><input type="checkbox" value="ar" checked>🧩 Dividir, cambiar y ordenar<span class="chk no" data-t="ar">✔</span></label>
+</div>
+<div class="row"><button class="btn" onclick="startPractice()">✏️ Practicar</button><button class="btn o" onclick="startChallenge()">⏱️ Desafío 60 s</button></div>
+<p style="text-align:center;font-size:1.1rem">✅ Supera el desafío con <b>13 o más y sin errores</b> para ganar el check verde.<br>🏆 Récord del desafío: <b id="best">0</b></p>
+</div>
+<div id="study" class="card hid">
+<h2 id="stTitle"></h2><div class="row" id="stTabs"></div>
+<div id="fc" class="card fc" onclick="flip()"></div>
+<p style="text-align:center">Toca la tarjeta para ver la explicación</p>
+<div class="row"><button class="btn gray" onclick="moveFc(-1)">⬅️ Anterior</button><button class="btn" onclick="moveFc(1)">Siguiente ➡️</button></div>
+<button class="btn r" onclick="home()">🏠 Inicio</button>
+</div>
+<div id="play" class="card hid">
+<div class="stats"><span>✅ <span id="sc">0</span></span><span>🔥 Racha: <span id="st">0</span></span><span id="cnt"></span></div>
+<div id="tm" class="timer hid"></div>
+<p><span class="tag" id="tg"></span></p>
+<div class="q" id="qt"></div><div id="sen" class="sen"></div><div id="opts"></div>
+<div id="msg" class="msg"></div><div id="exp" class="exp hid"></div>
+<button class="btn g hid" id="nx" onclick="goNext()">Siguiente ➡️</button>
+<button class="btn r" onclick="finish()">Terminar</button>
+</div>
+<div id="sum" class="card hid"><h2 id="sumT"></h2><p id="sumP" style="font-size:1.2rem"></p><div id="sumL"></div>
+<button class="btn o hid" id="rep" onclick="repeatErrors()">🔁 Repasar errores</button>
+<button class="btn" onclick="home()">🏠 Inicio</button></div>
+</div>
+<script>
+const B=[["Los niños", "juegan en el parque", "niños", "juegan", "p"], ["Mi hermano", "cocina una pizza", "hermano", "cocina", "s"], ["La maestra", "explica la lección", "maestra", "explica", "s"], ["El perro", "duerme en la cama", "perro", "duerme", "s"], ["Mis amigos", "cantan muy bien", "amigos", "cantan", "p"], ["La abuela", "lee un libro", "abuela", "lee", "s"], ["Las flores", "crecen en primavera", "flores", "crecen", "p"], ["Tus amigos", "viajan a Madrid", "amigos", "viajan", "p"], ["El gato", "duerme en el sofá", "gato", "duerme", "s"], ["La niña", "dibuja en su cuaderno", "niña", "dibuja", "s"], ["El bebé", "juega en el parque", "bebé", "juega", "s"], ["Las rosas", "crecen en el jardín", "rosas", "crecen", "p"], ["La pelota roja", "cayó al suelo", "pelota", "cayó", "s"], ["Los pájaros pequeños", "vuelan alto", "pájaros", "vuelan", "p"], ["Pedro", "escribe en su cuaderno", "Pedro", "escribe", "s"], ["Mi padre", "arregla el carro", "padre", "arregla", "s"], ["El director", "habla con los alumnos", "director", "habla", "s"], ["Mi mamá", "prepara pupusas los domingos", "mamá", "prepara", "s"], ["Los estudiantes", "leen en la biblioteca", "estudiantes", "leen", "p"], ["La mariposa amarilla", "vuela sobre las flores", "mariposa", "vuela", "s"], ["Mi prima Sofía", "baila en el festival", "prima", "baila", "s"], ["El volcán", "está cerca de la ciudad", "volcán", "está", "s"], ["Los delfines", "nadan en el mar", "delfines", "nadan", "p"], ["La lluvia", "moja el patio", "lluvia", "moja", "s"], ["Mi equipo de fútbol", "ganó el partido", "equipo", "ganó", "s"], ["Las niñas del grado", "preparan una exposición", "niñas", "preparan", "p"], ["El conejo blanco", "come zanahorias", "conejo", "come", "s"], ["Nico", "dibujó un cohete", "Nico", "dibujó", "s"], ["Los bomberos", "apagan el fuego", "bomberos", "apagan", "p"], ["El sol", "brilla en el cielo", "sol", "brilla", "s"], ["Mi tía", "compró frutas en el mercado", "tía", "compró", "s"], ["Los abuelos", "caminan por la playa", "abuelos", "caminan", "p"], ["La computadora nueva", "funciona muy rápido", "computadora", "funciona", "s"], ["El árbol grande", "da sombra en el recreo", "árbol", "da", "s"], ["Mis compañeros", "resuelven el problema", "compañeros", "resuelven", "p"], ["El tren", "llegó a la estación", "tren", "llegó", "s"], ["La profesora de música", "toca la guitarra", "profesora", "toca", "s"], ["Los peces de colores", "viven en la pecera", "peces", "viven", "p"]],O=[["Cantamos una canción", "Cantamos", "nosotros"], ["Jugamos en el patio", "Jugamos", "nosotros"], ["Cantó en un concierto", "Cantó", "él o ella"], ["Comemos frutas en el recreo", "Comemos", "nosotros"], ["Estudio para el examen", "Estudio", "yo"], ["Llegaste temprano a clase", "Llegaste", "tú"], ["Dibujan muy bonito", "Dibujan", "ellos o ellas"], ["Leí un cuento de piratas", "Leí", "yo"], ["Corremos rápido", "Corremos", "nosotros"], ["Viajaron a la playa", "Viajaron", "ellos o ellas"], ["Escribes una carta", "Escribes", "tú"], ["Durmió en la cama", "Durmió", "él o ella"], ["Juego fútbol con mis amigos", "Juego", "yo"], ["Visitamos el museo", "Visitamos", "nosotros"], ["Ayudó a su mamá", "Ayudó", "él o ella"], ["Nadaron en el lago", "Nadaron", "ellos o ellas"]];
+const CK="espanol_check_sujeto",BK="sujeto_best";let chalT=[];
+function getCk(){try{return JSON.parse(localStorage.getItem(CK)||"[]")}catch(e){return[]}}
+function drawCk(){const c=getCk();document.querySelectorAll(".chk").forEach(e=>e.classList.toggle("no",!c.includes(e.dataset.t)))}
+const TN={sp:"Sujeto y predicado",eo:"Expreso u omitido",nu:"Núcleos",ar:"Dividir, cambiar y ordenar"};
+const CARDS={sp:[["¿Qué es el sujeto?","Es <span class='su'>quién</span> realiza la acción o de quién se habla.<br><br><span class='su'>Los niños</span> juegan en el parque."],["¿Cómo lo encuentro?","Pregúntale al verbo: <b>¿Quién juega?</b> → <span class='su'>Los niños</span>. ¡Esa respuesta es el sujeto!"],["¿Qué es el predicado?","Es <span class='pr'>lo que se dice</span> del sujeto. Siempre tiene un verbo.<br><br>Los niños <span class='pr'>juegan en el parque</span>."],["Colores de la hoja","Sujeto en <span class='su'>azul</span> y predicado en <span class='pr'>rojo</span>:<br><span class='su'>La abuela</span> <span class='pr'>lee un libro</span>."]],
+eo:[["Sujeto expreso","El sujeto <b>está escrito</b> en la oración.<br><span class='su'>Pedro</span> <span class='pr'>escribe en su cuaderno</span>."],["Sujeto omitido","El sujeto <b>no aparece</b>, pero lo sabemos por el verbo.<br><span class='pr'>Jugamos en el patio</span> → (nosotros)."],["¡Cuidado!","Si escribes «<b>Él</b> cantó», el sujeto <b>ya está escrito</b>: es expreso.<br>Omitido sería solo: «Cantó en un concierto»."],["Pistas del verbo","canto → yo · cantas → tú · canta → él/ella<br>cantamos → nosotros · cantan → ellos"]],
+nu:[["Núcleo del sujeto","Es la palabra <b>más importante</b> del sujeto: el <b>sustantivo</b>.<br>La <u>pelota</u> roja cayó al suelo."],["Núcleo del predicado","Es el <b>verbo</b> principal del predicado.<br>Los pájaros pequeños <u>vuelan</u> alto."],["Truco","Las palabras como <b>el, la, los, mi, roja, pequeños</b> acompañan al núcleo, pero no son el núcleo."]],
+ar:[["Dividir la oración","Pon una línea entre sujeto y predicado:<br><span class='su'>Las flores</span> | <span class='pr'>crecen en primavera</span>."],["Cambiar el sujeto","Si el verbo está en singular, el nuevo sujeto también:<br>El gato duerme → <b>El perro</b> duerme ✔<br><b>Los perros</b> duerme ✘"],["Ordenar palabras","Primero quién (sujeto), después qué hace (predicado):<br>juega / el / bebé → <b>El bebé juega</b>."],["Mayúscula y punto","Toda oración empieza con mayúscula y termina con punto. ¡Y revisa las tildes: dur<b>mió</b>, <b>fút</b>bol!"]]};
+const $=id=>document.getElementById(id);
+function shuf(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function rnd(a){return a[Math.floor(Math.random()*a.length)]}
+function lc(s){return s.charAt(0).toLowerCase()+s.slice(1)}
+function uc(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function full(b){return b[0]+" "+b[1]+"."}
+function others(b,n,f){return shuf(B.filter(x=>x!==b).map(f)).filter((v,i,a)=>a.indexOf(v)==i).slice(0,n)}
+// generadores: devuelven {c,k,q,sen,o:[correcta,...],e} o {c,k,q,ord:[palabras],e}
+const G={
+sp:[b=>({q:"¿Cuál es el SUJETO de la oración?",sen:full(b),o:[b[0],b[1],...others(b,1,x=>x[0])],e:`Pregunta: ¿quién ${b[3]}? → «${b[0]}». Ese es el sujeto.`}),
+b=>({q:"¿Cuál es el PREDICADO de la oración?",sen:full(b),o:[b[1],b[0],...others(b,1,x=>x[1])],e:`El predicado dice qué hace el sujeto: «${b[1]}». Siempre lleva el verbo «${b[3]}».`})],
+eo:[b=>({q:"¿El sujeto es expreso u omitido?",sen:full(b),o:["Sujeto expreso","Sujeto omitido"],e:`El sujeto «${b[0]}» está escrito en la oración: es expreso.`}),
+()=>{const o=rnd(O);return{q:"¿El sujeto es expreso u omitido?",sen:o[0]+".",o:["Sujeto omitido","Sujeto expreso"],e:`No hay sujeto escrito. Por el verbo «${o[1]}» sabemos que es (${o[2]}): sujeto omitido.`}},
+()=>{const o=rnd(O);return{q:"¿Quién es el sujeto omitido?",sen:o[0]+".",o:[o[2],...shuf(["yo","tú","él o ella","nosotros","ellos o ellas"].filter(x=>x!=o[2])).slice(0,2)],e:`El verbo «${o[1]}» nos da la pista: el sujeto escondido es (${o[2]}).`}},
+b=>{const o=rnd(O);return{q:"¿Cuál oración tiene sujeto OMITIDO?",sen:"",o:[o[0]+".",full(b)],e:`«${o[0]}» no tiene sujeto escrito. Ojo: si le pones «Él» o «Nosotros» adelante, ya sería expreso.`}}],
+nu:[b=>{const w=b[0].split(" ");return{q:"¿Cuál es el NÚCLEO DEL SUJETO?",sen:full(b),o:[b[2],...shuf(w.filter(x=>x!=b[2])).slice(0,2),b[3]].slice(0,3),e:`El núcleo del sujeto es el sustantivo principal: «${b[2]}». Las otras palabras lo acompañan.`}},
+b=>{const w=b[1].split(" ");return{q:"¿Cuál es el NÚCLEO DEL PREDICADO?",sen:full(b),o:[b[3],...shuf(w.filter(x=>x!=b[3])).slice(0,1),b[2]],e:`El núcleo del predicado es el verbo: «${b[3]}». Pregunta: ¿qué hace? → ${b[3]}.`}}],
+ar:[b=>{const w=full(b).replace(".","").split(" "),n=b[0].split(" ").length,cuts=shuf([1,2,3,4].filter(i=>i!=n&&i<w.length)).slice(0,2);const f=i=>w.slice(0,i).join(" ")+" | "+w.slice(i).join(" ");return{q:"¿Dónde va la línea entre sujeto y predicado?",sen:"",o:[f(n),...cuts.map(f)],e:`<span class='su'>${b[0]}</span> | <span class='pr'>${b[1]}</span>. La línea va justo antes del verbo «${b[3]}».`}},
+b=>{const same=B.filter(x=>x!==b&&x[4]==b[4]&&x[0]!=b[0]),diff=B.filter(x=>x[4]!=b[4]);if(!same.length)return null;const ok=rnd(same)[0];return{q:"Cambia el sujeto. ¿Cuál queda bien con el mismo predicado?",sen:"<span class='su'>"+b[0]+"</span> <span class='pr'>"+b[1]+"</span>.",o:[ok+" "+b[1]+".",...shuf(diff).slice(0,2).map(x=>x[0]+" "+b[1]+".")],e:`El verbo «${b[3]}» está en ${b[4]=="s"?"singular":"plural"}, así que el nuevo sujeto también debe estar en ${b[4]=="s"?"singular":"plural"}.`}},
+b=>{const w=(b[0]+" "+b[1]).split(" ");if(w.length>7)return null;return{q:"Toca las palabras en orden para formar la oración:",ord:w,e:`Primero el sujeto («${b[0]}»), después el predicado («${b[1]}»): ${full(b)}`}}]};
+const $sel=()=>{const s=[...document.querySelectorAll("#topics input:checked")].map(i=>i.value);return s.length?s:Object.keys(TN)};
+let topics=[],cur=null,score=0,streak=0,done=0,missedL=[],answered=false,chal=false,timer=null,left=0,lastT=0,repeatQ=[];
+$("best").textContent=localStorage.getItem(BK)||0;
+function show(id){["home","study","play","sum"].forEach(x=>$(x).classList.toggle("hid",x!==id))}
+function home(){stop();drawCk();$("best").textContent=localStorage.getItem(BK)||0;show("home")}
+let fcT="sp",fcI=0,fcF=false;
+function showStudy(){$("stTabs").innerHTML=Object.keys(TN).map(k=>`<button class="btn ${k==fcT?'g':'gray'}" onclick="fcT='${k}';fcI=0;showStudy()">${TN[k]}</button>`).join("");fcF=false;drawFc();show("study")}
+function drawFc(){const c=CARDS[fcT][fcI];$("fc").innerHTML=fcF?`<div>${c[1]}</div>`:`<b>${c[0]}</b>`;$("stTitle").textContent=`📖 ${TN[fcT]} (${fcI+1}/${CARDS[fcT].length})`}
+function flip(){fcF=!fcF;drawFc()}
+function moveFc(d){const n=CARDS[fcT].length;fcI=(fcI+d+n)%n;fcF=false;drawFc()}
+function stop(){if(timer){clearInterval(timer);timer=null}}
+function begin(t,isChal){topics=t;score=0;streak=0;done=0;missedL=[];chal=isChal;$("sc").textContent=0;$("st").textContent=0;show("play");stop();
+if(chal){left=60;$("tm").classList.remove("hid");$("tm").textContent="⏱️ 60";timer=setInterval(()=>{left--;$("tm").textContent="⏱️ "+left;if(left<=0)finish()},1000)}else $("tm").classList.add("hid");next()}
+function startPractice(){repeatQ=[];begin($sel(),false)}
+function startChallenge(){repeatQ=[];chalT=$sel();begin(chalT,true)}
+function repeatErrors(){repeatQ=missedL.slice();begin(Object.keys(TN),false)}
+function gen(){if(repeatQ.length)return repeatQ.shift();for(let i=0;i<50;i++){const c=rnd(topics);let gs=G[c];if(chal)gs=gs.filter((g,j)=>!(c=="ar"&&j==2));const q=rnd(gs)(rnd(B));if(q&&(q.ord||new Set(q.o).size==q.o.length)&&q.sen!==lastT){q.c=c;return q}}}
+let lock=0;function goNext(){if(Date.now()-lock<400)return;lock=Date.now();next()}
+function next(){cur=gen();lastT=cur.sen;answered=false;$("tg").textContent=TN[cur.c];$("qt").textContent=cur.q;$("sen").innerHTML=cur.sen||"";$("sen").classList.toggle("hid",!cur.sen);$("cnt").textContent="Preguntas: "+done;
+$("opts").innerHTML="";$("msg").textContent="";$("exp").classList.add("hid");$("nx").classList.add("hid");
+if(cur.ord){cur.right=cur.ord.join(" ")+".";const built=[];const bx=document.createElement("div");bx.className="built";bx.textContent="…";const ch=document.createElement("div");ch.className="chips";
+let sh=shuf(cur.ord.map((w,i)=>[w,i]));while(sh.length>1&&sh.every((x,i)=>x[1]==i))sh=shuf(sh);
+sh.forEach(([w])=>{const c=document.createElement("button");c.className="chip";c.textContent=(w===cur.ord[0]&&!/^(Pedro|Nico)$/.test(w))?lc(w):w;c.onclick=()=>{if(answered)return;c.disabled=true;built.push(c.textContent);bx.textContent=uc(built.join(" "));if(built.length==cur.ord.length){const s=uc(built.join(" "))+".";answer(null,s,bx)}};ch.appendChild(c)});
+const rs=document.createElement("button");rs.className="btn gray";rs.textContent="↩️ Borrar";rs.onclick=()=>{if(answered)return;built.length=0;bx.textContent="…";[...ch.children].forEach(x=>x.disabled=false)};
+$("opts").append(bx,ch,rs);return}
+cur.right=cur.o[0];shuf(cur.o).forEach(o=>{const b=document.createElement("button");b.className="btn opt";b.textContent=o;b.onclick=()=>answer(b,o);$("opts").appendChild(b)})}
+const GOOD=["¡Muy bien! 🎉","¡Excelente! ⭐","¡Correcto! 👏","¡Eres un crack! 🚀","¡Súper! 💪"];
+function answer(b,o,bx){if(answered)return;answered=true;done++;const ok=o===cur.right;
+if(bx){bx.style.background=ok?"#c9f1d8":"#ffd6d1";if(!ok)bx.innerHTML="Tu oración: "+o+"<br>✔️ "+cur.right}
+else[...$("opts").children].forEach(x=>{if(x.textContent===cur.right)x.classList.add("ok")});
+if(ok){score++;streak++;$("msg").textContent=rnd(GOOD)+(streak>=3?` ¡Racha de ${streak}! 🔥`:"")}
+else{if(b)b.classList.add("bad");streak=0;missedL.push(cur);$("msg").textContent="¡Casi! Mira la respuesta correcta 💡"}
+$("sc").textContent=score;$("st").textContent=streak;$("cnt").textContent="Preguntas: "+done;
+if(chal){setTimeout(()=>{if(chal&&left>0)next()},ok?600:1800);return}
+$("exp").innerHTML="ℹ️ "+cur.e;$("exp").classList.remove("hid");$("nx").classList.remove("hid")}
+function finish(){stop();const wasChal=chal;chal=false;let t="¡Buen trabajo, "+NM()+"! 🌟";
+if(wasChal){const best=+(localStorage.getItem(BK)||0);if(score>best){localStorage.setItem(BK,score);t="🏆 ¡Nuevo récord: "+score+"!"}}
+if(wasChal&&score>=13&&done===score){const c=getCk();chalT.forEach(x=>{if(!c.includes(x))c.push(x)});localStorage.setItem(CK,JSON.stringify(c));drawCk();t="✅ ¡Tema superado! "+score+" sin errores. ¡Bravo, "+NM()+"!"}
+$("sumT").textContent=t;$("sumP").textContent=`Respondiste bien ${score} de ${done} preguntas.`;
+$("sumL").innerHTML=missedL.length?"<h3>Para repasar:</h3><ul>"+missedL.map(q=>`<li><b>${q.q}</b> ${q.sen||""}<br>✔️ ${q.right} — ${q.e}</li>`).join("")+"</ul>":"<p>¡No tuviste errores! 🎉</p>";
+$("rep").classList.toggle("hid",!missedL.length);show("sum")}
+</script><div id="nmBox" style="display:none;position:fixed;inset:0;background:rgba(31,42,68,.55);z-index:99;align-items:center;justify-content:center;padding:16px">
+<form id="nmForm" style="background:#fff;border-radius:20px;padding:24px;max-width:420px;width:100%;text-align:center;font-family:inherit">
+<p style="font-size:1.4rem;font-weight:700;margin:0 0 12px">👋 ¡Hola! ¿Cómo te llamas?</p>
+<p style="font-size:1.05rem;margin:0 0 12px">Escribe tu nombre o tu apodo</p>
+<input id="nmIn" maxlength="20" autocomplete="off" style="width:100%;font-size:1.4rem;padding:12px;border:2px solid #2b8de2;border-radius:12px;text-align:center">
+<button type="submit" style="width:100%;font-size:1.3rem;padding:14px;margin-top:12px;border:0;border-radius:14px;background:#22a35a;color:#fff;font-weight:700;cursor:pointer">¡Listo! ✅</button>
+</form></div>
+<script>
+(function(){
+const K="sociales_nombre";
+function clean(s){return (s||"").replace(/[<>"]/g,"").trim().slice(0,20)}
+try{const q=clean(new URLSearchParams(location.search).get("nombre"));if(q)localStorage.setItem(K,q)}catch(e){}
+window.NM=function(){try{return clean(localStorage.getItem(K))||"amiguito"}catch(e){return "amiguito"}};
+function apply(){document.querySelectorAll(".nm").forEach(e=>e.textContent=NM());
+const n=(function(){try{return clean(localStorage.getItem(K))}catch(e){return ""}})();
+document.querySelectorAll("a[data-app]").forEach(a=>{a.href=a.dataset.app+(n?"?nombre="+encodeURIComponent(n):"")})}
+window.cambiarNombre=function(){const b=document.getElementById("nmBox"),i=document.getElementById("nmIn");i.value=NM()=="amiguito"?"":NM();b.style.display="flex";i.focus()};
+document.getElementById("nmForm").onsubmit=function(ev){ev.preventDefault();const v=clean(document.getElementById("nmIn").value);if(!v){document.getElementById("nmIn").focus();return}
+try{localStorage.setItem(K,v)}catch(e){}document.getElementById("nmBox").style.display="none";apply()};
+apply();
+if(window.ASK_NAME&&NM()=="amiguito")cambiarNombre();
+})();
+</script>
+<script>drawCk()</script></body></html>
